@@ -10,6 +10,14 @@
   version = "v1.7.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:182110592671b4635255b891cd8eb6188ab2ff6bf651ddded8267830104fe7fa"
+  name = "github.com/flavioltonon/go-rubikube"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "31def3a8eaa5bc5315b2a0869f570a76dd17ab63"
+
+[[projects]]
   digest = "1:c658e84ad3916da105a761660dcaeb01e63416c8ec7bc62256a9b411a05fcd67"
   name = "github.com/mattn/go-colorable"
   packages = ["."]
@@ -36,6 +44,9 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/fatih/color"]
+  input-imports = [
+    "github.com/fatih/color",
+    "github.com/flavioltonon/go-rubikube",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

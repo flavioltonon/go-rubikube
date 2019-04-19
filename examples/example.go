@@ -1,6 +1,6 @@
 package main
 
-import rubik "github.com/flavioltonon/go-rubikube"
+import rubik "flavioltonon/go-rubikube"
 
 /*	 ___   ___	    ___		    ___				    ___	   ___
  *	|	| |   |	   |   | |	 | | __|  | | /	 |	 | | __|  |__
@@ -22,34 +22,15 @@ import rubik "github.com/flavioltonon/go-rubikube"
  */
 
 func main() {
-	// var front = face{
-	// 	colors: [][]color{
-	// 		{blue, blue, blue},
-	// 		{red, white, blue},
-	// 		{green, blue, yellow},
-	// 	},
-	// }
-
 	var cube = rubik.NewCube()
 
-	cube.Print().Front()
-	cube.Print().Back()
-	cube.Print().Left()
-	cube.Print().Right()
-	cube.Print().Up()
-	cube.Print().Down()
+	cube.Print().Tridimensional().Front()
 
-	clockwise := true
-	cube.Rotate(clockwise).Front()
+	cube.Rotate().Clockwise().Front()
 
-	cube.Print().Front()
-	cube.Print().Back()
-	cube.Print().Left()
-	cube.Print().Right()
-	cube.Print().Up()
-	cube.Print().Down()
+	cube.Print().Tridimensional().Front()
 
-	// cube.Rotate(true).Front()
+	cube.Rotate().Clockwise().Front()
 
-	// log.Println(cube.left)
+	cube.Print().Tridimensional().Front()
 }

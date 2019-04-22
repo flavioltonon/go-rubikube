@@ -217,7 +217,7 @@ func (p *printOptionTridimensional) Front() {
 					switch i {
 					case 1:
 						switch l {
-						case 0:
+						case 2:
 							return 1, 0
 						case 1:
 							return 2, 1
@@ -226,7 +226,7 @@ func (p *printOptionTridimensional) Front() {
 						}
 					case 3:
 						switch l {
-						case 0:
+						case 1:
 							return 2, 0
 						default:
 							return 0, 0

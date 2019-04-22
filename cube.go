@@ -2,6 +2,7 @@ package rubikube
 
 import (
 	"math/rand"
+	"time"
 
 	rainbow "github.com/fatih/color"
 )
@@ -38,26 +39,45 @@ func (c *cube) Print() *printOption {
 	}
 }
 
-func (c *cube) Shuffle() {
-	for i := 0; i < 20; i++ {
-		var clockwise = rand.Int31n(1) == 1
+func (c *cube) Shuffle(n int) {
+	var source = rand.NewSource(time.Now().Unix())
 
-		switch faces[rand.Int31n(5)] {
+	r := rand.New(source)
+
+	for i := 0; i < n; i++ {
+		var clockwise = (r.Int31n(100) > 50)
+
+		switch faces[r.Int31n(6)] {
 		case "front":
 			if clockwise {
 				c.Rotate().Clockwise().Front()
 			}
 			c.Rotate().CounterClockwise().Front()
-			// case "back":
-			// 	c.Rotate().Back()
-			// case "left":
-			// 	c.Rotate().Left()
-			// case "right":
-			// 	c.Rotate().Right()
-			// case "up":
-			// 	c.Rotate().Up()
-			// case "down":
-			// 	c.Rotate().Down()
+		case "back":
+			if clockwise {
+				c.Rotate().Clockwise().Back()
+			}
+			c.Rotate().CounterClockwise().Back()
+		case "left":
+			if clockwise {
+				c.Rotate().Clockwise().Left()
+			}
+			c.Rotate().CounterClockwise().Left()
+		case "right":
+			if clockwise {
+				c.Rotate().Clockwise().Right()
+			}
+			c.Rotate().CounterClockwise().Right()
+		case "up":
+			if clockwise {
+				c.Rotate().Clockwise().Up()
+			}
+			c.Rotate().CounterClockwise().Up()
+		case "down":
+			if clockwise {
+				c.Rotate().Clockwise().Down()
+			}
+			c.Rotate().CounterClockwise().Down()
 		}
 	}
 }

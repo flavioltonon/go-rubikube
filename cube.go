@@ -27,14 +27,62 @@ func NewCube() *cube {
 	}
 }
 
-func (c *cube) Rotate() *rotationOption {
-	return &rotationOption{
+func (c *cube) Front() *faceOption {
+	return &faceOption{
+		face: &face{
+			name:   "front",
+			colors: c.front.colors,
+		},
 		cube: c,
 	}
 }
 
-func (c *cube) Print() *printOption {
-	return &printOption{
+func (c *cube) Back() *faceOption {
+	return &faceOption{
+		face: &face{
+			name:   "back",
+			colors: c.back.colors,
+		},
+		cube: c,
+	}
+}
+
+func (c *cube) Left() *faceOption {
+	return &faceOption{
+		face: &face{
+			name:   "left",
+			colors: c.left.colors,
+		},
+		cube: c,
+	}
+}
+
+func (c *cube) Right() *faceOption {
+	return &faceOption{
+		face: &face{
+			name:   "right",
+			colors: c.right.colors,
+		},
+		cube: c,
+	}
+}
+
+func (c *cube) Up() *faceOption {
+	return &faceOption{
+		face: &face{
+			name:   "up",
+			colors: c.up.colors,
+		},
+		cube: c,
+	}
+}
+
+func (c *cube) Down() *faceOption {
+	return &faceOption{
+		face: &face{
+			name:   "down",
+			colors: c.down.colors,
+		},
 		cube: c,
 	}
 }
@@ -45,39 +93,29 @@ func (c *cube) Shuffle(n int) {
 	r := rand.New(source)
 
 	for i := 0; i < n; i++ {
-		var clockwise = (r.Int31n(100) > 50)
+		var face *faceOption
 
 		switch faces[r.Int31n(6)] {
 		case "front":
-			if clockwise {
-				c.Rotate().Clockwise().Front()
-			}
-			c.Rotate().CounterClockwise().Front()
+			face = c.Front()
 		case "back":
-			if clockwise {
-				c.Rotate().Clockwise().Back()
-			}
-			c.Rotate().CounterClockwise().Back()
+			face = c.Back()
 		case "left":
-			if clockwise {
-				c.Rotate().Clockwise().Left()
-			}
-			c.Rotate().CounterClockwise().Left()
+			face = c.Left()
 		case "right":
-			if clockwise {
-				c.Rotate().Clockwise().Right()
-			}
-			c.Rotate().CounterClockwise().Right()
+			face = c.Right()
 		case "up":
-			if clockwise {
-				c.Rotate().Clockwise().Up()
-			}
-			c.Rotate().CounterClockwise().Up()
+			face = c.Up()
 		case "down":
-			if clockwise {
-				c.Rotate().Clockwise().Down()
-			}
-			c.Rotate().CounterClockwise().Down()
+			face = c.Down()
+		}
+
+		rotate := face.Rotate()
+
+		if r.Int31n(100) > 50 {
+			rotate.Clockwise()
+		} else {
+			rotate.CounterClockwise()
 		}
 	}
 }
@@ -88,14 +126,6 @@ type face struct {
 }
 
 var faces = []string{"front", "back", "left", "right", "up", "down"}
-
-func (f face) MainColor() color {
-	return f.colors[1][1]
-}
-
-func (f face) Position(i, j int) color {
-	return f.colors[i][j]
-}
 
 type color string
 

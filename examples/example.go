@@ -1,6 +1,8 @@
 package main
 
-import rubik "flavioltonon/go-rubikube"
+import (
+	rubik "flavioltonon/go-rubikube"
+)
 
 /*	 ___   ___	    ___		    ___				    ___	   ___
  *	|	| |   |	   |   | |	 | | __|  | | /	 |	 | | __|  |__
@@ -24,13 +26,18 @@ import rubik "flavioltonon/go-rubikube"
 func main() {
 	var cube = rubik.NewCube()
 
-	cube.Print().Tridimensional().Front()
+	cube.Front().Print().Tridimensional()
 
-	cube.Rotate().Clockwise().Front()
+	cube.Front().MainColor()
+	cube.Back().MainColor()
+	cube.Left().MainColor()
+	cube.Right().MainColor()
+	cube.Up().MainColor()
+	cube.Down().MainColor()
 
-	cube.Print().Tridimensional().Front()
+	cube.Shuffle(30)
+	cube.Front().Print().Tridimensional()
 
-	cube.Rotate().Clockwise().Front()
+	cube.Front().Print().Bidimensional()
 
-	cube.Print().Tridimensional().Front()
 }

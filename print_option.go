@@ -58,42 +58,7 @@ func (p *printOption) Tridimensional() {
 					white.Print(`/`)
 				}
 				if (k-3)%3 == 0 {
-					x, y := func(i, k int) (int, int) {
-						switch i {
-						case 1:
-							switch k {
-							case 0:
-								return 0, 2
-							default:
-								return 0, 0
-							}
-						case 3:
-							switch k {
-							case 0:
-								return 0, 1
-							case 3:
-								return 1, 2
-							default:
-								return 0, 0
-							}
-						case 5:
-							switch k {
-							case 0:
-								return 0, 0
-							case 3:
-								return 1, 1
-							case 6:
-								return 2, 2
-							default:
-								return 0, 0
-							}
-						default:
-							return 0, 0
-						}
-					}(i, k)
-
-					color := p.cube.right.colors[x][y].Color()
-
+					color := p.cube.right.colors[k/3][k/3-i/2+2].Color()
 					color.Print(`\`)
 				}
 			}
@@ -102,41 +67,7 @@ func (p *printOption) Tridimensional() {
 
 			white.Print(fmt.Sprintf("%s/-----------------/", initialSpacing[(3*i+3)/2:]))
 			for l := 0; l < (i+1)/2; l++ {
-				x, y := func(i, l int) (int, int) {
-					switch i {
-					case 1:
-						switch l {
-						case 0:
-							return 0, 2
-						default:
-							return 0, 0
-						}
-					case 3:
-						switch l {
-						case 0:
-							return 0, 1
-						case 1:
-							return 1, 2
-						default:
-							return 0, 0
-						}
-					case 5:
-						switch l {
-						case 0:
-							return 0, 0
-						case 1:
-							return 1, 1
-						case 2:
-							return 2, 2
-						default:
-							return 0, 0
-						}
-					default:
-						return 0, 0
-					}
-				}(i, l)
-
-				color := p.cube.right.colors[x][y].Color()
+				color := p.cube.right.colors[l][l-i/2+2].Color()
 				color.Print(`\\`)
 				white.Print("|")
 			}
@@ -147,31 +78,7 @@ func (p *printOption) Tridimensional() {
 					white.Print("|")
 				}
 				if (k-2)%3 == 0 {
-					x, y := func(i, k int) (int, int) {
-						switch i {
-						case 2:
-							switch k {
-							case 2:
-								return 0, 2
-							default:
-								return 0, 0
-							}
-						case 4:
-							switch k {
-							case 2:
-								return 0, 1
-							case 5:
-								return 1, 2
-							default:
-								return 0, 0
-							}
-						default:
-							return 0, 0
-						}
-					}(i, k)
-
-					color := p.cube.right.colors[x][y].Color()
-
+					color := p.cube.right.colors[k/3][k/3-i/2+3].Color()
 					color.Print(`\`)
 				}
 				if (k-3)%3 == 0 {
@@ -199,30 +106,7 @@ func (p *printOption) Tridimensional() {
 					white.Print(`/`)
 				}
 				if (k-1)%3 == 0 {
-					x, y := func(i, k int) (int, int) {
-						switch i {
-						case 1:
-							switch k {
-							case 7:
-								return 1, 0
-							case 4:
-								return 2, 1
-							default:
-								return 0, 0
-							}
-						case 3:
-							switch k {
-							case 4:
-								return 2, 0
-							default:
-								return 0, 0
-							}
-						default:
-							return 0, 0
-						}
-					}(i, k)
-
-					color := p.cube.right.colors[x][y].Color()
+					color := p.cube.right.colors[3-k/3][2-k/3-i/2].Color()
 					color.Print(`\`)
 				}
 				if (k-0)%3 == 0 {
@@ -234,71 +118,14 @@ func (p *printOption) Tridimensional() {
 
 			white.Print("|-----------------|")
 			for l := 3 - (i+1)/2; l > 0; l-- {
-				x, y := func(i, l int) (int, int) {
-					switch i {
-					case 1:
-						switch l {
-						case 2:
-							return 1, 0
-						case 1:
-							return 2, 1
-						default:
-							return 0, 0
-						}
-					case 3:
-						switch l {
-						case 1:
-							return 2, 0
-						default:
-							return 0, 0
-						}
-					default:
-						return 0, 0
-					}
-				}(i, l)
-
-				color := p.cube.right.colors[x][y].Color()
+				color := p.cube.right.colors[3-l][2-l-i/2].Color()
 				color.Print(`\\`)
 				white.Print("/")
 			}
 			white.Print("\n")
 		case 0:
 			for k := 8 - (3*i)/2; k > 0; k-- {
-				x, y := func(i, k int) (int, int) {
-					switch i {
-					case 0:
-						switch k {
-						case 8:
-							return 0, 0
-						case 5:
-							return 1, 1
-						case 2:
-							return 2, 2
-						default:
-							return 0, 0
-						}
-					case 2:
-						switch k {
-						case 5:
-							return 1, 0
-						case 2:
-							return 2, 1
-						default:
-							return 0, 0
-						}
-					case 4:
-						switch k {
-						case 2:
-							return 2, 0
-						default:
-							return 0, 0
-						}
-					default:
-						return 0, 0
-					}
-				}(i, k)
-
-				color := p.cube.right.colors[x][y].Color()
+				color := p.cube.right.colors[2-k/3][2-k/3-i/2].Color()
 				if (k+1)%3 == 0 {
 					color.Print(`\`)
 				}

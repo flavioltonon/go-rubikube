@@ -8,8 +8,8 @@ import (
 )
 
 type printOption struct {
-	face *face
-	cube *cube
+	*face
+	*cube
 }
 
 func (p *printOption) Bidimensional() {
@@ -20,7 +20,7 @@ func (p *printOption) Bidimensional() {
 	for i := 0; i < 6; i++ {
 		white.Print("|")
 		for j := 0; j < 3; j++ {
-			color := p.face.colors[i/2][j].Color()
+			color := p.face.Position(i/2, j).Color()
 			color.Print("/////")
 			white.Print("|")
 		}
@@ -43,7 +43,7 @@ func (p *printOption) Tridimensional() {
 		spacing := initialSpacing[(3*i+2)/2:]
 		white.Print(fmt.Sprintf("%s/", spacing))
 		for j := 0; j < 3; j++ {
-			color := p.cube.up.colors[i/2][j].Color()
+			color := p.cube.Up().Position(i/2, j).Color()
 			color.Print(`\\\\\`)
 			white.Print("/")
 		}
@@ -58,7 +58,7 @@ func (p *printOption) Tridimensional() {
 					white.Print(`/`)
 				}
 				if (k-3)%3 == 0 {
-					color := p.cube.right.colors[k/3][k/3-i/2+2].Color()
+					color := p.cube.Right().Position(k/3, k/3-i/2+2).Color()
 					color.Print(`\`)
 				}
 			}
@@ -67,7 +67,7 @@ func (p *printOption) Tridimensional() {
 
 			white.Print(fmt.Sprintf("%s/-----------------/", initialSpacing[(3*i+3)/2:]))
 			for l := 0; l < (i+1)/2; l++ {
-				color := p.cube.right.colors[l][l-i/2+2].Color()
+				color := p.cube.Right().Position(l, l-i/2+2).Color()
 				color.Print(`\\`)
 				white.Print("|")
 			}
@@ -78,7 +78,7 @@ func (p *printOption) Tridimensional() {
 					white.Print("|")
 				}
 				if (k-2)%3 == 0 {
-					color := p.cube.right.colors[k/3][k/3-i/2+3].Color()
+					color := p.cube.Right().Position(k/3, k/3-i/2+3).Color()
 					color.Print(`\`)
 				}
 				if (k-3)%3 == 0 {
@@ -94,7 +94,7 @@ func (p *printOption) Tridimensional() {
 	for i := 0; i < 6; i++ {
 		white.Print("|")
 		for j := 0; j < 3; j++ {
-			color := p.cube.front.colors[i/2][j].Color()
+			color := p.cube.Front().Position(i/2, j).Color()
 			color.Print("/////")
 			white.Print("|")
 		}
@@ -106,7 +106,7 @@ func (p *printOption) Tridimensional() {
 					white.Print(`/`)
 				}
 				if (k-1)%3 == 0 {
-					color := p.cube.right.colors[3-k/3][2-k/3-i/2].Color()
+					color := p.cube.Right().Position(3-k/3, 2-k/3-i/2).Color()
 					color.Print(`\`)
 				}
 				if (k-0)%3 == 0 {
@@ -118,14 +118,14 @@ func (p *printOption) Tridimensional() {
 
 			white.Print("|-----------------|")
 			for l := 3 - (i+1)/2; l > 0; l-- {
-				color := p.cube.right.colors[3-l][2-l-i/2].Color()
+				color := p.cube.Right().Position(3-l, 2-l-i/2).Color()
 				color.Print(`\\`)
 				white.Print("/")
 			}
 			white.Print("\n")
 		case 0:
 			for k := 8 - (3*i)/2; k > 0; k-- {
-				color := p.cube.right.colors[2-k/3][2-k/3-i/2].Color()
+				color := p.cube.Right().Position(2-k/3, 2-k/3-i/2).Color()
 				if (k+1)%3 == 0 {
 					color.Print(`\`)
 				}

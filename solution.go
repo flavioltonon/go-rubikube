@@ -33,6 +33,34 @@ const (
 	RESET
 )
 
+type shuffleSuboption int
+
+const (
+	SHUFFLE_RETURN shuffleSuboption = iota
+	SHUFFLE_STEP_BY_STEP
+	SHUFFLE_RANDOMICALLY
+)
+
+type shuffleStepByStepSuboption int
+
+const (
+	SHUFFLE_STEP_BY_STEP_RETURN shuffleStepByStepSuboption = iota
+	SHUFFLE_STEP_BY_STEP_FRONT
+	SHUFFLE_STEP_BY_STEP_BACK
+	SHUFFLE_STEP_BY_STEP_LEFT
+	SHUFFLE_STEP_BY_STEP_RIGHT
+	SHUFFLE_STEP_BY_STEP_UP
+	SHUFFLE_STEP_BY_STEP_DOWN
+)
+
+type shuffleStepByStepRotationDirectionSuboption int
+
+const (
+	SHUFFLE_STEP_BY_STEP_ROTATION_DIRECTION_RETURN shuffleStepByStepRotationDirectionSuboption = iota
+	SHUFFLE_STEP_BY_STEP_ROTATION_DIRECTION_CLOCKWISE
+	SHUFFLE_STEP_BY_STEP_ROTATION_DIRECTION_COUNTERCLOCKWISE
+)
+
 type printSuboption int
 
 const (
@@ -231,12 +259,100 @@ func findSolutions(size int) error {
 }
 
 func (c *cube) handleShuffleOption() error {
+	var s shuffleSuboption
+
+	for {
+		fmt.Print("-------- SHUFFLE  MENU --------\n\n")
+		fmt.Print("Choose one of the shuffling types below:\n\n1) Step-by-step\n2) Randomically\n0) Return\n\nOption: ")
+		fmt.Scan(&s)
+		fmt.Print("\n")
+
+		switch s {
+		case SHUFFLE_STEP_BY_STEP:
+			c.handleShuffleStepByStepSuboption()
+		case SHUFFLE_RANDOMICALLY:
+			c.handleShuffleRandomicallySuboption()
+		case SHUFFLE_RETURN:
+			return nil
+		default:
+			fmt.Print("Invalid option!\n")
+		}
+
+		fmt.Print("\n")
+	}
+}
+
+func (c *cube) handleShuffleStepByStepSuboption() error {
+	var s shuffleStepByStepSuboption
+
+	for {
+		fmt.Print("Choose one of the faces below:\n\n1) Front\n2) Back\n3) Left\n4) Right\n5) Up\n6) Down\n0) Return\n\nOption: ")
+		fmt.Scan(&s)
+		fmt.Print("\n")
+
+		switch s {
+		case SHUFFLE_STEP_BY_STEP_FRONT:
+			c.Front().Rotate().handleShuffleStepByStepRotationDirectionSuboption()
+			c.Front().Print().Tridimensional()
+		case SHUFFLE_STEP_BY_STEP_BACK:
+			c.Back().Rotate().handleShuffleStepByStepRotationDirectionSuboption()
+			c.Front().Print().Tridimensional()
+		case SHUFFLE_STEP_BY_STEP_LEFT:
+			c.Left().Rotate().handleShuffleStepByStepRotationDirectionSuboption()
+			c.Front().Print().Tridimensional()
+		case SHUFFLE_STEP_BY_STEP_RIGHT:
+			c.Right().Rotate().handleShuffleStepByStepRotationDirectionSuboption()
+			c.Front().Print().Tridimensional()
+		case SHUFFLE_STEP_BY_STEP_UP:
+			c.Up().Rotate().handleShuffleStepByStepRotationDirectionSuboption()
+			c.Front().Print().Tridimensional()
+		case SHUFFLE_STEP_BY_STEP_DOWN:
+			c.Down().Rotate().handleShuffleStepByStepRotationDirectionSuboption()
+			c.Front().Print().Tridimensional()
+		case SHUFFLE_STEP_BY_STEP_RETURN:
+			return nil
+		default:
+			fmt.Print("Invalid option!\n")
+		}
+
+		fmt.Print("\n")
+	}
+}
+
+func (r *rotationOption) handleShuffleStepByStepRotationDirectionSuboption() error {
+	var s shuffleStepByStepRotationDirectionSuboption
+
+	for {
+		fmt.Print("Choose one of the directions below:\n\n1) Clockwise\n2) Counterclockwise\n0) Return\n\nOption: ")
+		fmt.Scan(&s)
+		fmt.Print("\n")
+
+		switch s {
+		case SHUFFLE_STEP_BY_STEP_ROTATION_DIRECTION_CLOCKWISE:
+			r.Clockwise()
+			return nil
+		case SHUFFLE_STEP_BY_STEP_ROTATION_DIRECTION_COUNTERCLOCKWISE:
+			r.CounterClockwise()
+			return nil
+		case SHUFFLE_STEP_BY_STEP_ROTATION_DIRECTION_RETURN:
+			return nil
+		default:
+			fmt.Print("Invalid option!\n")
+		}
+
+		fmt.Print("\n")
+	}
+}
+
+func (c *cube) handleShuffleRandomicallySuboption() error {
 	var n int
 
 	fmt.Print("Input the number of times the cube\nshould be shuffled\n\nTimes: ")
 	fmt.Scan(&n)
 
 	c.Shuffle(n)
+
+	c.Front().Print().Tridimensional()
 
 	return nil
 }
@@ -246,7 +362,7 @@ func (c cube) handlePrintOption() error {
 
 	for {
 		fmt.Print("--------- PRINT  MENU ---------\n\n")
-		fmt.Print("Choose one of the print types below:\n1) Tridimensional\n2) Bidimensional\n0) Return\n\nOption: ")
+		fmt.Print("Choose one of the print types below:\n\n1) Tridimensional\n2) Bidimensional\n0) Return\n\nOption: ")
 		fmt.Scan(&s)
 
 		switch s {
@@ -268,7 +384,7 @@ func (c cube) handlePrintBidimensionalSuboption() {
 	var f printBidimensionalSuboption
 
 	for {
-		fmt.Print("Choose one of the faces below:\n1) Front\n2) Back\n3) Left\n4) Right\n5) Up\n6) Down\n0) Return\n\nOption: ")
+		fmt.Print("Choose one of the faces below:\n\n1) Front\n2) Back\n3) Left\n4) Right\n5) Up\n6) Down\n0) Return\n\nOption: ")
 		fmt.Scan(&f)
 
 		switch f {
@@ -299,7 +415,7 @@ func (c cube) handleSolveOption() error {
 
 	for {
 		fmt.Print("------- SOLUTIONS  MENU -------\n\n")
-		fmt.Print("Choose one of the solution methods below:\n1) Optimized\n2) Randomically\n0) Return\n\nOption: ")
+		fmt.Print("Choose one of the solution methods below:\n\n1) Optimized\n2) Randomically\n0) Return\n\nOption: ")
 		fmt.Scan(&s)
 		fmt.Print("\n")
 

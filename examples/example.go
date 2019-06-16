@@ -1,7 +1,7 @@
 package main
 
 import (
-	rubik "flavioltonon/go-rubikube"
+	rubik "github.com/flavioltonon/go-rubikube"
 )
 
 /*	 ___   ___	    ___		    ___				    ___	   ___

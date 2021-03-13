@@ -2,7 +2,6 @@ package rubikube
 
 import (
 	"fmt"
-	"sync"
 )
 
 var solutions map[string]bool
@@ -37,7 +36,7 @@ func (c *Rubikube) Solve() *Solution {
 
 	visited := make(map[string]bool)
 
-	for q.length() > 0 {
+	for q.len() > 0 {
 		currentNode := q.dequeue()
 
 		ss := currentNode.cube.snapshot()
@@ -85,36 +84,52 @@ func (c *Rubikube) Solve() *Solution {
 type node struct {
 	cube     *Rubikube
 	solution *Solution
+
+	next     *node
+	previous *node
 }
 
 type queue struct {
-	elements []*node
-
-	mu sync.RWMutex
+	head   *node
+	tail   *node
+	length int
 }
 
 func newQueue() *queue {
-	return &queue{
-		elements: make([]*node, 0),
-	}
+	return &queue{}
 }
 
 func (q *queue) enqueue(n *node) {
-	q.mu.Lock()
-	q.elements = append(q.elements, n)
-	q.mu.Unlock()
+	if q.head == nil {
+		q.head = n
+		q.tail = n
+	} else {
+		n.next = q.head
+		q.head.previous = n
+		q.head = n
+	}
+
+	q.length++
 }
 
 func (q *queue) dequeue() *node {
-	q.mu.Lock()
-	n := q.elements[0]
-	q.elements = q.elements[1:]
-	q.mu.Unlock()
+	n := q.tail
+
+	if q.length == 1 {
+		q.head = nil
+		q.tail = nil
+	} else {
+		q.tail.previous.next = nil
+		q.tail = q.tail.previous
+	}
+
+	q.length--
+
 	return n
 }
 
-func (q *queue) length() int {
-	return len(q.elements)
+func (q *queue) len() int {
+	return q.length
 }
 
 func buildSolutions() []string {
